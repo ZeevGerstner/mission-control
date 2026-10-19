@@ -1,0 +1,244 @@
+bridge/usage.ts
+  s_c438fc0e365444::t_012220495f1952 1-206
+bridge/config.ts
+  s_b324847f239c68::t_55c2ee10b8df1a 15
+  s_b324847f239c68::t_ead5481bedfe2f 43
+  s_b324847f239c68::t_2376dfb7e25e01 16-17
+  s_d0dee9683c82a4::t_c43d3d6e7c6fd2 47
+  s_d0dee9683c82a4::t_615dce9210ee4d 1-14,18-42,45-46,48-49
+  s_b324847f239c68::t_a4edb3a9cbfc3c 44
+bridge/tailer.test.ts
+  s_c438fc0e365444::t_d8523a3da5feb7 1-120
+bridge/Dockerfile
+  s_b324847f239c68::t_d685707c238a20 1-15,17-21
+  s_b324847f239c68::t_cbc8ed8c71f4dd 16
+bridge/server.test.ts
+  s_d0dee9683c82a4::t_fbf97872623a99 1-19,25-26,33,51-54,73-82,84,86-89,91-95,97-98,100-109,111,113-114,117-120,122-131,133-134,136-146,148-150,153-162,198-199
+  s_d0dee9683c82a4::t_bed6a25ee3b897 20-24,27-32,34-50,55-72,83,85,90,96,99,110,112,115-116,121,132,135,147
+  s_c438fc0e365444::t_c1a54e92498d82 151-152,163-197
+src/app/page.tsx
+  s_b324847f239c68::t_74ee85314b283a 49-50,52-58
+  s_b324847f239c68::t_19c7f293d4e08f 62-65,74-83
+  s_c438fc0e365444::t_73c467b13513f6 27,200-201
+bridge/tailer.ts
+  s_c438fc0e365444::t_9865fe4ccfc388 1-134,138-260
+  s_c438fc0e365444::t_433f915fbf0404 135-137
+bridge/server.ts
+  s_c438fc0e365444::t_ad9977cbca6165 48-53
+  s_d0dee9683c82a4::t_1212d75612a2be 1-30,43-47,60-69,71-73,76-79,125-136,145-187,203-214,216-233
+  s_b324847f239c68::t_2ba5c458f6dad9 42
+  s_c438fc0e365444::t_74537eb716bd91 54-59
+  s_b324847f239c68::t_6ea9b8cb96a48e 33-41
+  s_b324847f239c68::t_eb75b1bd0c14ab 74-75,80-124
+  s_b324847f239c68::t_e819e7f4d0ff69 31-32
+  s_d0dee9683c82a4::t_78e4c6b6c403d0 137-144
+  s_b324847f239c68::t_da23c6d991ab82 215
+  s_c438fc0e365444::t_4a58b7089ea335 70
+  s_c438fc0e365444::t_bfa8b3cb145327 188-202
+vitest.config.ts
+  s_d0dee9683c82a4::t_a1055f618984e8 15
+src/app/api/notifications/deliver/route.ts
+  s_b324847f239c68::t_e9506eaf8b02b2 65-66,68-71,74-77,79-89
+  s_b324847f239c68::t_954cb3a41b4a35 143-166
+src/lib/websocket.ts
+  s_b324847f239c68::t_3b7106579d368e 41
+  s_b324847f239c68::t_6c4c316d6175d7 376
+  s_b324847f239c68::t_389780362a95c8 438-443,447,449-451
+  s_b324847f239c68::t_0a346dc73ac53c 474
+src/app/api/memory/route.ts
+  s_b324847f239c68::t_238ac446b56295 140
+  s_b324847f239c68::t_93c4b303f6adc3 254
+  s_b324847f239c68::t_17a989952d7ef3 314
+bridge/package.json
+  s_b324847f239c68::t_92e6fc20463cf0 1-23
+bridge/roster.ts
+  s_d347d6c57853b4::t_5ff4f8b62b551b 486
+  s_d347d6c57853b4::t_553c415467063d 361-365
+  s_d347d6c57853b4::t_edfb9dd832575a 509,511
+  s_d347d6c57853b4::t_d2c3d6c5ab382f 439-441,445-455
+  s_d347d6c57853b4::t_8fb9eeb7230a7d 1,3,6,10,16,33-36,38,51-60,63-64,67,70-80,82-89,91-95,113,115-116,119-121,124,159-161,165,167,171,174,178,180-181,222-223,229-230,236-237,246-247,250-251,257,263,276-277,285,289-290,308-309,317-319,321,330-331,333-335,338,344,348,354-355,357-358,360,366-367,375-376,384-385,421,473,480-482,485,487,494,496,500,505,507,527,530,533-534,548
+  s_d347d6c57853b4::t_021b6c6c64f54e 535-547
+  s_d347d6c57853b4::t_22c370914003e1 98-112
+  s_d347d6c57853b4::t_bbafd7b7623bdf 337
+  s_d347d6c57853b4::t_b6a03eac686435 2,4-5,7-9,11-15,17-32,37,39-50,61-62,65-66,68-69,81,90,114,117-118,122-123,125-158,162-164,166,168-170,172-173,175-177,179,182-184,218-221,224-228,231-235,238-245,248-249,252-256,258-262,264-275,278-284,286-288,291-307,310-316,320,322-329,332,336,339-343,345-347,349-353,356,359,368-374,377-383,392-420,422-438,442-444,456-472,474-479,483-484,488-493,495,497-499,501-504,506,508,510,512-526,528-529,531-532
+  s_d347d6c57853b4::t_f4c1562446ae38 96-97
+  s_d347d6c57853b4::t_c42f5e796b3c1d 386-391
+  s_d347d6c57853b4::t_d243b609403ccb 185-217
+tests/demo-tour.spec.ts
+  s_29319dc6f12be3::t_43215d22788d24 293-295,304-307,309-325,327
+  s_29319dc6f12be3::t_25d163c2143c74 1-25,27,43-47,49-138,142,144,165-260,276-280,287-292,296-303,308,326,328-395,403-482
+  s_29319dc6f12be3::t_e0a352b23fc8eb 26
+  s_29319dc6f12be3::t_4546520ffbc394 28-42,48
+  s_29319dc6f12be3::t_119aab0dd853b2 261-275
+  s_29319dc6f12be3::t_6dbf9139a5b64b 396-402
+  s_29319dc6f12be3::t_3e7bc3e00aea78 139-141,143,145-164
+  s_29319dc6f12be3::t_aa136123ba8516 281-286
+src/app/api/agents/message/route.ts
+  s_b324847f239c68::t_b6c054b6149478 26-36,57-78
+tsconfig.json
+  s_d0dee9683c82a4::t_4530d836600845 39-40
+bridge/roster.test.ts
+  s_d347d6c57853b4::t_94f71b5ad696e9 10,12,19-20,50,66,88,111,114,152,168,170,172,178,187,190,309,335
+  s_d347d6c57853b4::t_70557b57752bb2 276,279-306
+  s_d347d6c57853b4::t_9ba2dc89a5b1d6 1,8,13-16,22-30,33-34,57,61,73,75,80,89,91,93,96-97,104,115,117-119,140,142,145-147,151,153,191-192,194,222,227,229,232,307-308,350-351
+  s_d347d6c57853b4::t_beb0af737f00a1 2-7,9,17-18,21,31-32,35-49,51-56,58-60,62-65,67-72,74,76-79,81-87,90,92,94-95,98-103,105-110,112-113,116,120-139,141,143-144,148-150,154-167,169,171,173-177,179-186,188-189,193,195-221,223-226,228,230-231,233-275,277-278,310-334,336-349
+  s_d347d6c57853b4::t_e92cadef046806 11
+bridge/ingest.test.ts
+  s_b324847f239c68::t_9f5ce3c8230975 1-149
+eslint.config.mjs
+  s_b324847f239c68::t_dd75bf828f751e 9
+bridge/cursor.ts
+  s_d0dee9683c82a4::t_e393a99b5aaf59 1-77
+bridge/usage.test.ts
+  s_c438fc0e365444::t_79300ce686d931 122
+  s_c438fc0e365444::t_eeffe10f80b935 143
+  s_c438fc0e365444::t_9adadf716b0dd9 65
+  s_c438fc0e365444::t_88c61340571bc4 1-2,4-64,66-121,123-142,144-154
+  s_c438fc0e365444::t_9c80f655b6ff8a 3
+bridge/index.ts
+  s_d347d6c57853b4::t_72c6eaf2987d00 72-83
+  s_b324847f239c68::t_9b7994d2890f91 21
+  s_d347d6c57853b4::t_43e07a32af25e7 112-117
+  s_c438fc0e365444::t_2d605994dd6095 1-14,17-20,24-25,31-34,36-48,51-53,56-61,64-71,91-98,100-104,125
+  s_b324847f239c68::t_f0d095bd5e5188 86
+  s_b324847f239c68::t_d369ddf960432e 127,138,147
+  s_d347d6c57853b4::t_e632425895fc4a 135
+  s_b324847f239c68::t_aefb70e5555d0e 99,105-111,118-124
+  s_c438fc0e365444::t_cd22e6daa3e0e4 49-50
+  s_d0dee9683c82a4::t_1d8b86e958f834 15-16,23,54-55,84-85,87-89,126,128-131,136,139-146,148-150
+  s_d347d6c57853b4::t_1070f4d733ca6a 22
+  s_c438fc0e365444::t_44ec8ceb81c29e 26-30
+  s_b324847f239c68::t_8530a48625d7a8 62-63
+  s_c438fc0e365444::t_d2f416648e901e 90
+  s_d347d6c57853b4::t_845efe1c6bde7e 132-134,137
+  s_d347d6c57853b4::t_2109234f6725fe 35
+src/app/api/agents/sync/route.ts
+  s_b324847f239c68::t_77dbca0d11b123 17-18
+bridge/fixtures/tailer-sample.jsonl
+  s_c438fc0e365444::t_af8d8f98d6c55b 3-5,7-8
+  s_c438fc0e365444::t_973a869a23bc7a 1-2,6
+bridge/tsconfig.json
+  s_d0dee9683c82a4::t_2f29bf9c0ca236 1-21
+Dockerfile
+  s_b324847f239c68::t_29d7ecbb68c407 14-16
+  s_b324847f239c68::t_3ac25c592e73c2 1,19
+  s_4faa35bc4f9fce::t_bb20758fec285d 6
+pnpm-workspace.yaml
+  s_4f4b0d04ca33e4::t_c14abaaefa55ae 1-5
+src/app/api/spawn/route.ts
+  s_b324847f239c68::t_c65b029522b30e 29-53
+  s_b324847f239c68::t_cf56616dda2501 5
+  s_b324847f239c68::t_8430044f0136f9 85-86,98-99,101,103-105,111
+src/app/api/agents/[id]/wake/route.ts
+  s_b324847f239c68::t_b60f21999239e6 33-43,45-52,57-58
+bridge/.gitignore
+  s_c438fc0e365444::t_7db09b25e32d99 4
+  s_d0dee9683c82a4::t_46ca19080ea76b 1-3,5
+bridge/mapper.ts
+  s_c438fc0e365444::t_3dd16fbb8fec3a 1-125,131-165,167-186
+  s_c438fc0e365444::t_80bd3e7d9014d5 166
+  s_c438fc0e365444::t_240ef4370b5933 126-130
+bridge/frames.ts
+  s_d0dee9683c82a4::t_851fec7b60ffbd 1-131,133-135,137-139
+  s_c438fc0e365444::t_fa2bf33f9ae951 132,136
+bridge/ingest.ts
+  s_b324847f239c68::t_76c1df5cec01f2 1-185
+docker-compose.yml
+  s_d347d6c57853b4::t_82780ec629cd6e 9-19
+  s_b324847f239c68::t_d7016f39473a58 2-8,20-27,29-34,44,48-50
+  s_d347d6c57853b4::t_7166deeed74b2a 38-41
+  s_b324847f239c68::t_88499949978c20 45-46
+bridge/.dockerignore
+  s_b324847f239c68::t_3909e5178878f7 1-7
+bridge/cursor.test.ts
+  s_d0dee9683c82a4::t_a1d35d14f4c0bd 1-52
+src/app/api/tasks/[id]/broadcast/route.ts
+  s_b324847f239c68::t_02101dd73676da 45,49-58,60,77,86-87,90
+bridge/mapper.test.ts
+  s_c438fc0e365444::t_dcd00213bb7306 1-46,57-120
+  s_c438fc0e365444::t_59d599ddcb6ba1 47-56
+src/app/api/ai-team/waves/route.ts
+  s_f9b224695c90df::t_ddb8d1964c0222 1-113
+src/app/api/ai-team/catalog/route.test.ts
+  s_c438fc0e365444::t_28718e49b63d29 1-132
+src/app/api/ai-team/catalog/route.ts
+  s_c438fc0e365444::t_81f97c31514394 1-156
+src/app/api/ai-team/waves/route.test.ts
+  s_c438fc0e365444::t_2f6a4520f0a64c 1-115
+src/components/layout/nav-rail.tsx
+  s_c438fc0e365444::t_0c9b4d52a0a5d6 59
+src/components/panels/ai-team-panel.tsx
+  s_c438fc0e365444::t_0fb8db35ca86c6 1-276
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.15",
+  "base_commit_sha": "053919585c214c46e8c4ab77152a68794c1c3be1",
+  "prompts": {},
+  "sessions": {
+    "s_29319dc6f12be3": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "e9a08774-ea93-4a2b-a220-0e0bdae56dbe",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_4f4b0d04ca33e4": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5e28ebd9-54bc-471c-ae1f-4dc3b6ad8d42",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_4faa35bc4f9fce": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "7eaf0ef7-a59c-4c3b-bcd6-0ad26e21d54d",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_b324847f239c68": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "28e5e651-7143-43e3-adb3-da0df010a07b",
+        "model": "muse-spark-1.3"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_c438fc0e365444": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "181aee8b-bf5a-43e8-83c7-71e2d0f39c83",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_d0dee9683c82a4": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a1c6bf01-1f4d-4353-b844-899c2317fbef",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_d347d6c57853b4": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "1539aa5b-1dc9-4748-8a8d-7c28e8d97b2c",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    },
+    "s_f9b224695c90df": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "13068f45-abfc-4d8d-b727-53f5a12715ac",
+        "model": "muse-spark-1.3-high"
+      },
+      "human_author": "Zevik Gerstner <zevik.g@lsports.eu>"
+    }
+  }
+}
