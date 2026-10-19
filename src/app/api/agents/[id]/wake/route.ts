@@ -26,35 +26,36 @@ export async function POST(
       return NextResponse.json({ error: 'Agent not found' }, { status: 404 })
     }
 
-    if (!agent.session_key) {
-      return NextResponse.json(
-        { error: 'Agent has no session key configured' },
-        { status: 400 }
-      )
-    }
-
     const message =
       customMessage ||
       `Wake up check-in for ${agent.name}. Please review assigned tasks and notifications.`
 
-    const { stdout, stderr } = await runOpenClaw(
-      ['gateway', 'sessions_send', '--session', agent.session_key, '--message', message],
-      { timeoutMs: 10000 }
-    )
-
-    if (stderr && stderr.includes('error')) {
-      return NextResponse.json(
-        { error: stderr.trim() || 'Failed to wake agent' },
-        { status: 500 }
-      )
-    }
-
+    // Local-first: the wake is recorded regardless of gateway reachability.
     db_helpers.updateAgentStatus(agent.name, 'idle', 'Manual wake')
+
+    // Gateway delivery is best-effort.
+    let delivery: 'gateway' | 'local' = 'local'
+    if (agent.session_key) {
+      try {
+        const { stdout, stderr } = await runOpenClaw(
+          ['gateway', 'sessions_send', '--session', agent.session_key, '--message', message],
+          { timeoutMs: 10000 }
+        )
+
+        if (stderr && stderr.includes('error')) {
+          console.warn('Gateway wake reported an error, kept local:', stderr.trim())
+        } else {
+          delivery = 'gateway'
+        }
+      } catch (err) {
+        console.warn('Gateway wake unavailable, kept local:', (err as Error)?.message)
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      session_key: agent.session_key,
-      stdout: stdout.trim()
+      delivery,
+      session_key: agent.session_key
     })
   } catch (error) {
     console.error('POST /api/agents/[id]/wake error:', error)

@@ -62,14 +62,31 @@ export async function POST(request: NextRequest) {
 
     for (const notification of undeliveredNotifications) {
       try {
-        // Skip if agent doesn't have session key
+        // No gateway session: the dashboard inbox IS the delivery surface.
+        // Mark local instead of erroring — the notification stays visible.
         if (!notification.session_key) {
-          errors.push({
+          const now = Math.floor(Date.now() / 1000);
+          markDeliveredStmt.run(now, notification.id);
+          deliveredCount++;
+          deliveryResults.push({
             notification_id: notification.id,
             recipient: notification.recipient,
-            error: 'Agent has no session key configured'
+            session_key: notification.session_key,
+            delivered_at: now,
+            status: 'local',
+            note: 'No gateway session — delivered to dashboard inbox.'
           });
-          errorCount++;
+          db_helpers.logActivity(
+            'notification_delivered',
+            'notification',
+            notification.id,
+            'system',
+            `Notification delivered locally to ${notification.recipient} (no gateway session)`,
+            {
+              notification_type: notification.type,
+              title: notification.title
+            }
+          );
           continue;
         }
         
@@ -123,7 +140,30 @@ export async function POST(request: NextRequest) {
               }
             );
           } catch (cmdError: any) {
-            throw new Error(`Command failed: ${cmdError.message}`);
+            // Gateway unreachable: fall back to local delivery — the inbox row
+            // is the surface, the socket push was only a nudge.
+            const now = Math.floor(Date.now() / 1000);
+            markDeliveredStmt.run(now, notification.id);
+            deliveredCount++;
+            deliveryResults.push({
+              notification_id: notification.id,
+              recipient: notification.recipient,
+              session_key: notification.session_key,
+              delivered_at: now,
+              status: 'local',
+              note: `Gateway send failed (${cmdError.message}) — delivered to dashboard inbox.`
+            });
+            db_helpers.logActivity(
+              'notification_delivered',
+              'notification',
+              notification.id,
+              'system',
+              `Notification delivered locally to ${notification.recipient} (gateway send failed)`,
+              {
+                notification_type: notification.type,
+                title: notification.title
+              }
+            );
           }
         } else {
           // Dry run - just log what would be sent

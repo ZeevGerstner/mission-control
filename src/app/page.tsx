@@ -24,6 +24,7 @@ import { AgentHistoryPanel } from '@/components/panels/agent-history-panel'
 import { WebhookPanel } from '@/components/panels/webhook-panel'
 import { SettingsPanel } from '@/components/panels/settings-panel'
 import { GatewayConfigPanel } from '@/components/panels/gateway-config-panel'
+import { AiTeamPanel } from '@/components/panels/ai-team-panel'
 import { IntegrationsPanel } from '@/components/panels/integrations-panel'
 import { AlertRulesPanel } from '@/components/panels/alert-rules-panel'
 import { MultiGatewayPanel } from '@/components/panels/multi-gateway-panel'
@@ -45,13 +46,23 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true)
 
-    // Fetch current user
+    // Fetch current user — a dead session must bounce to login instead of
+    // rendering panels that 401 one by one (middleware only checks presence).
     fetch('/api/auth/me')
-      .then(res => res.ok ? res.json() : null)
+      .then(res => {
+        if (!res.ok) {
+          window.location.href = '/login'
+          return null
+        }
+        return res.json()
+      })
       .then(data => { if (data?.user) setCurrentUser(data.user) })
       .catch(() => {})
 
-    // Auto-connect to gateway on mount
+    // Auto-connect to gateway on mount — but only when one is actually
+    // configured. Otherwise we stay Disconnected instead of retry-spamming
+    // an address nothing listens on. (Manual Connect in the header still works,
+    // as does an explicit NEXT_PUBLIC_GATEWAY_URL.)
     const wsToken = process.env.NEXT_PUBLIC_GATEWAY_TOKEN || process.env.NEXT_PUBLIC_WS_TOKEN || ''
     const explicitWsUrl = process.env.NEXT_PUBLIC_GATEWAY_URL || ''
     const gatewayPort = process.env.NEXT_PUBLIC_GATEWAY_PORT || '18789'
@@ -60,7 +71,16 @@ export default function Home() {
       process.env.NEXT_PUBLIC_GATEWAY_PROTOCOL ||
       (window.location.protocol === 'https:' ? 'wss' : 'ws')
     const wsUrl = explicitWsUrl || `${gatewayProto}://${gatewayHost}:${gatewayPort}`
-    connect(wsUrl, wsToken)
+    if (explicitWsUrl) {
+      connect(wsUrl, wsToken)
+    } else {
+      fetch('/api/gateways')
+        .then(res => (res.ok ? res.json() : { gateways: [] }))
+        .then(data => {
+          if ((data.gateways || []).length > 0) connect(wsUrl, wsToken)
+        })
+        .catch(() => {})
+    }
   }, [connect, setCurrentUser])
 
   if (!isClient) {
@@ -177,6 +197,8 @@ function ContentRouter({ tab }: { tab: string }) {
       return <MultiGatewayPanel />
     case 'gateway-config':
       return <GatewayConfigPanel />
+    case 'ai-team':
+      return <AiTeamPanel />
     case 'integrations':
       return <IntegrationsPanel />
     case 'settings':

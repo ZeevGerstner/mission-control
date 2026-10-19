@@ -38,6 +38,7 @@ export function useWebSocket() {
   const authTokenRef = useRef<string>('')
   const requestIdRef = useRef<number>(0)
   const handshakeCompleteRef = useRef<boolean>(false)
+  const errorLoggedRef = useRef<boolean>(false)
 
   // Heartbeat tracking
   const pingCounterRef = useRef<number>(0)
@@ -372,6 +373,7 @@ export function useWebSocket() {
 
     reconnectUrl.current = url
     handshakeCompleteRef.current = false
+    errorLoggedRef.current = false
 
     try {
       const ws = new WebSocket(url.split('?')[0]) // Connect without query params
@@ -433,12 +435,20 @@ export function useWebSocket() {
 
       ws.onerror = (error) => {
         console.error('WebSocket error:', error)
+        // Log only once per connection, and only as an error if we had a live
+        // session. Unreachable-gateway retries stay at debug so they don't spam
+        // the LiveFeed or the Errors counter (see dashboard errorCount).
+        if (errorLoggedRef.current) return
+        errorLoggedRef.current = true
+        const wasLive = handshakeCompleteRef.current
         addLog({
           id: `error-${Date.now()}`,
           timestamp: Date.now(),
-          level: 'error',
+          level: wasLive ? 'error' : 'debug',
           source: 'websocket',
-          message: `WebSocket error occurred`
+          message: wasLive
+            ? `WebSocket error occurred`
+            : `Gateway unreachable at ${url.split('?')[0]} — retrying quietly in background`
         })
       }
 
@@ -461,6 +471,7 @@ export function useWebSocket() {
     }
 
     handshakeCompleteRef.current = false
+    errorLoggedRef.current = false
     setConnection({
       isConnected: false,
       reconnectAttempts: 0,

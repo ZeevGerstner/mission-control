@@ -1,0 +1,7 @@
+node_modules
+dist
+cursor.json
+usage-state.json
+session-table.json
+*.test.ts
+*.log

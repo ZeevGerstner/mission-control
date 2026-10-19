@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
     if (action === 'content' && path) {
       // Return file content
       if (!MEMORY_PATH) {
-        return NextResponse.json({ error: 'Memory directory not configured' }, { status: 500 })
+        return NextResponse.json({ content: '', size: 0, modified: null, path, unconfigured: true })
       }
       const fullPath = await resolveSafeMemoryPath(MEMORY_PATH, path)
       
@@ -251,7 +251,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!MEMORY_PATH) {
-      return NextResponse.json({ error: 'Memory directory not configured' }, { status: 500 })
+      return NextResponse.json({ error: 'Memory directory not configured — set OPENCLAW_HOME to enable writing memory files.' }, { status: 400 })
     }
     const fullPath = await resolveSafeMemoryPath(MEMORY_PATH, path)
 
@@ -311,7 +311,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     if (!MEMORY_PATH) {
-      return NextResponse.json({ error: 'Memory directory not configured' }, { status: 500 })
+      return NextResponse.json({ error: 'Memory directory not configured — set OPENCLAW_HOME to enable deleting memory files.' }, { status: 400 })
     }
     const fullPath = await resolveSafeMemoryPath(MEMORY_PATH, path)
 

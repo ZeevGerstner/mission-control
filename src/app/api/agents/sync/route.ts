@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
     const result = await syncAgentsFromConfig(auth.user.username)
 
     if (result.error) {
-      return NextResponse.json({ error: result.error }, { status: 500 })
+      // No config source (e.g. OPENCLAW_HOME unset) is an empty sync, not a crash.
+      return NextResponse.json({ ...result, synced: 0, created: 0, updated: 0, agents: [] })
     }
 
     return NextResponse.json(result)

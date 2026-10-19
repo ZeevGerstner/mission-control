@@ -42,11 +42,22 @@ export async function POST(
       .all(...Array.from(subscribers)) as Array<{ name: string; session_key?: string }>
 
     let sent = 0
+    let local = 0
     let skipped = 0
 
     for (const agent of agents) {
+      // The dashboard inbox is the delivery surface — every subscriber gets a
+      // notification regardless of gateway reachability. Gateway send is best-effort.
+      db_helpers.createNotification(
+        agent.name,
+        'message',
+        'Task Broadcast',
+        `${author} broadcasted a message on "${task.title}": ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`,
+        'task',
+        taskId
+      )
       if (!agent.session_key) {
-        skipped += 1
+        local += 1
         continue
       }
       try {
@@ -62,16 +73,8 @@ export async function POST(
           { timeoutMs: 10000 }
         )
         sent += 1
-        db_helpers.createNotification(
-          agent.name,
-          'message',
-          'Task Broadcast',
-          `${author} broadcasted a message on "${task.title}": ${message.substring(0, 100)}${message.length > 100 ? '...' : ''}`,
-          'task',
-          taskId
-        )
       } catch (error) {
-        skipped += 1
+        local += 1
       }
     }
 
@@ -80,11 +83,11 @@ export async function POST(
       'task',
       taskId,
       author,
-      `Broadcasted message to ${sent} subscribers`,
-      { sent, skipped }
+      `Broadcasted message to ${sent + local} subscribers (${sent} via gateway)`,
+      { sent, local, skipped }
     )
 
-    return NextResponse.json({ sent, skipped })
+    return NextResponse.json({ sent, local, skipped })
   } catch (error) {
     console.error('POST /api/tasks/[id]/broadcast error:', error)
     return NextResponse.json({ error: 'Failed to broadcast message' }, { status: 500 })
