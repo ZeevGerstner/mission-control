@@ -22,23 +22,18 @@ export async function POST(request: NextRequest) {
     if (!agent) {
       return NextResponse.json({ error: 'Recipient agent not found' }, { status: 404 })
     }
-    if (!agent.session_key) {
-      return NextResponse.json(
-        { error: 'Recipient agent has no session key configured' },
-        { status: 400 }
-      )
-    }
 
-    await runOpenClaw(
-      [
-        'gateway',
-        'sessions_send',
-        '--session',
-        agent.session_key,
-        '--message',
-        `Message from ${from}: ${message}`
-      ],
-      { timeoutMs: 10000 }
+    // Local-first: the message thread is stored regardless of gateway reachability.
+    db.prepare(`
+      INSERT INTO messages (conversation_id, from_agent, to_agent, content, message_type, metadata)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `).run(
+      `conv-direct-${Date.now()}`,
+      from,
+      to,
+      message,
+      'text',
+      JSON.stringify({ delivery: 'pending' })
     )
 
     db_helpers.createNotification(
@@ -59,7 +54,28 @@ export async function POST(request: NextRequest) {
       { to }
     )
 
-    return NextResponse.json({ success: true })
+    // Gateway delivery is best-effort — the message is already stored + notified.
+    let delivery: 'gateway' | 'local' = 'local'
+    if (agent.session_key) {
+      try {
+        await runOpenClaw(
+          [
+            'gateway',
+            'sessions_send',
+            '--session',
+            agent.session_key,
+            '--message',
+            `Message from ${from}: ${message}`
+          ],
+          { timeoutMs: 10000 }
+        )
+        delivery = 'gateway'
+      } catch (err) {
+        console.warn('Gateway message delivery unavailable, kept local:', (err as Error)?.message)
+      }
+    }
+
+    return NextResponse.json({ success: true, delivery })
   } catch (error) {
     console.error('POST /api/agents/message error:', error)
     return NextResponse.json({ error: 'Failed to send message' }, { status: 500 })

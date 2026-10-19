@@ -1,0 +1,8 @@
+{"role":"user","message":{"content":[{"type":"text","text":"You are workspace-implementer for wave WAVE-TEST. Tail this file."}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"Starting T2 work: reading frames.ts first."}]}}
+{"role":"assistant","message":{"content":[{"type":"tool_use","name":"Read","input":{"path":"bridge/frames.ts"}}]}}
+not-json-at-all {{{ poison line must be skipped + counted
+{"type":"turn_ended","status":"success"}
+{"role":"assistant","message":{"content":[{"type":"text","text":"Done: scaffold\n\nVALIDATION\n- tests: vitest -> PASS (4)\n- live: n/a\n- restarted: n/a\n- assumed: none\n- NOT tested: none\n\nTokens: ~11k input / ~2.4k output (source: estimate)"}]}}
+{"role":"assistant","message":{"weird":"shape without content array"}}
+{"type":"turn_ended","status":"failed"}

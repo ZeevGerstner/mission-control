@@ -56,6 +56,7 @@ const navGroups: NavGroup[] = [
       { id: 'gateways', label: 'Gateways', icon: <GatewaysIcon />, priority: false },
       { id: 'gateway-config', label: 'Config', icon: <GatewayConfigIcon />, priority: false },
       { id: 'integrations', label: 'Integrations', icon: <IntegrationsIcon />, priority: false },
+      { id: 'ai-team', label: 'AI Team', icon: <AgentsIcon />, priority: false },
       { id: 'super-admin', label: 'Super Admin', icon: <SuperAdminIcon />, priority: false },
       { id: 'settings', label: 'Settings', icon: <SettingsIcon />, priority: false },
     ],

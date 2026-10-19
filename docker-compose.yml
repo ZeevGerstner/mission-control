@@ -1,12 +1,53 @@
 services:
+  bridge:
+    build: ./bridge
+    ports:
+      - "3101:3101"
+    environment:
+      - BRIDGE_HOST=0.0.0.0
+      - BRIDGE_PORT=3101
+      # T-B roster sync: wave identity for the active-wave write gate.
+      # Override per wave via `BRIDGE_WAVE_KEY=...` in .env or host env.
+      - BRIDGE_WAVE_KEY=${BRIDGE_WAVE_KEY:-WAVE-20261018-1103}
+      # T-B roster sync: server-to-server MC reach (compose DNS) + credential.
+      # MC_API_KEY mirrors MC's own API_KEY from the same .env so both sides
+      # are identical by construction (MC reads API_KEY via env_file below).
+      - MC_BASE_URL=http://mission-control:3000
+      - MC_API_KEY=${API_KEY:-}
+    volumes:
+      # Read-only wave marker for the roster active-wave gate (T-B).
+      - ./state/wave:/app/state/wave:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3101/health').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
   mission-control:
-    build: .
+    build:
+      context: .
+      # Browser-reachable gateway URL, baked at build time (Next.js limitation).
+      # Example for same-host deploy: MC_GATEWAY_URL=ws://YOUR-HOST-IP:3101
+      args:
+        - NEXT_PUBLIC_GATEWAY_URL=${MC_GATEWAY_URL:-}
     ports:
       - "3000:3000"
     env_file: .env
+    environment:
+      # T-B roster sync: allow server-to-server Host (compose DNS) through the
+      # production default-deny host gate (middleware.ts). Browser hosts stay.
+      - MC_ALLOWED_HOSTS=localhost,127.0.0.1,mission-control
     volumes:
       - mc-data:/app/.data
+      - ./.cursor/agents:/app/.cursor/agents:ro
+      - ./.cursor/commands:/app/.cursor/commands:ro
+      - ../../ai-team-orchestration:/ai-team-orchestration:ro
     restart: unless-stopped
+    depends_on:
+      bridge:
+        condition: service_healthy
 
 volumes:
   mc-data:

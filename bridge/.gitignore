@@ -1,0 +1,5 @@
+# Bridge runtime artifacts (local-only, never commit)
+cursor.json
+session-table.json
+usage-state.json
+dist/

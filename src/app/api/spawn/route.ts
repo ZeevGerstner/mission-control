@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { runClawdbot } from '@/lib/command'
 import { requireRole } from '@/lib/auth'
 import { config } from '@/lib/config'
+import { getDatabase } from '@/lib/db'
 import { readdir, readFile, stat } from 'fs/promises'
 import { join } from 'path'
 import { heavyLimiter } from '@/lib/rate-limit'
@@ -24,6 +25,31 @@ export async function POST(request: NextRequest) {
 
     // Generate spawn ID
     const spawnId = `spawn-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+
+    // Local-first: the agent roster row is the dashboard's source of truth.
+    // Gateway delivery below is best-effort — the spawn succeeds regardless.
+    const db = getDatabase()
+    const nowSec = Math.floor(Date.now() / 1000)
+    const agentName = label || spawnId
+    let agentId: number | null = null
+    const existing = db.prepare('SELECT id FROM agents WHERE name = ?').get(agentName) as any
+    if (existing) {
+      agentId = existing.id as number
+    } else {
+      const created = db.prepare(`
+        INSERT INTO agents (name, role, session_key, status, created_at, updated_at, config)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        agentName,
+        'agent',
+        `local-${spawnId}`,
+        'idle',
+        nowSec,
+        nowSec,
+        JSON.stringify({ spawnId, task, model: model || null })
+      )
+      agentId = created.lastInsertRowid as number
+    }
 
     // Construct the spawn command
     // Using OpenClaw's sessions_spawn function via clawdbot CLI
@@ -56,6 +82,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         spawnId,
+        agent: { id: agentId, name: agentName },
+        delivery: 'gateway',
         sessionInfo,
         task,
         model,
@@ -67,18 +95,20 @@ export async function POST(request: NextRequest) {
       })
 
     } catch (execError: any) {
-      logger.error({ err: execError }, 'Spawn execution error')
-      
+      logger.warn({ err: execError }, 'Gateway spawn unavailable, kept local agent row')
+
       return NextResponse.json({
-        success: false,
+        success: true,
         spawnId,
-        error: execError.message || 'Failed to spawn agent',
+        agent: { id: agentId, name: agentName },
+        delivery: 'local',
+        note: 'Gateway binary unavailable — agent rostered locally and visible in the dashboard.',
         task,
         model,
         label,
         timeoutSeconds: timeout,
         createdAt: Date.now()
-      }, { status: 500 })
+      })
     }
 
   } catch (error) {

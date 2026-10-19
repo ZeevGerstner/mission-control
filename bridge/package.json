@@ -1,0 +1,23 @@
+{
+  "name": "ai-team-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local AI-team gateway bridge — speaks the OpenClaw gateway v3 subset Mission Control expects, fed from AI-team transcripts and event intake.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "ws": "8.19.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.9",
+    "@types/ws": "8.18.1",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
